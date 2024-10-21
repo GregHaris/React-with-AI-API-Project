@@ -1,3 +1,4 @@
+import Button from './components/Button';
 import Headings from './components/Headings';
 import SearchBar from './components/SearchBar';
 
@@ -17,7 +18,7 @@ function App() {
       <div>
         <SearchBar>
           <textarea placeholder="Enter your text" />
-          <button className='submitBtn'> Submit </button>
+          <Button textContent='Submit' handleClick={() => console.log('clicked')}/>
         </SearchBar>
       </div>
     </>
