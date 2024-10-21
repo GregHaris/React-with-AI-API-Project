@@ -5,7 +5,14 @@ function App() {
   return (
     <>
       <div>
-        <Headings heading="Hi, Welcome"> How can we help you today? </Headings>
+        <Headings>
+          <div>
+            <h1>Hi, Welcome.</h1>
+          </div>
+          <div>
+            <h3>How can I help you today?</h3>
+          </div>{' '}
+        </Headings>
       </div>
       <div>
         <SearchBar> submit </SearchBar>
