@@ -17,8 +17,8 @@ function App() {
       </div>
       <div>
         <SearchBar>
-          <textarea placeholder="Enter your text" />
-          <Button textContent='Submit' handleClick={() => console.log('clicked')}/>
+          <textarea className='search-input' placeholder="Enter your text" />
+          <Button textContent='Send' handleClick={() => console.log('clicked')}/>
         </SearchBar>
       </div>
     </>
