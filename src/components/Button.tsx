@@ -4,11 +4,7 @@ interface Props {
 }
 
 const Button = ({ textContent, handleClick }: Props) => {
-  return (
-    <div>
-      <button onClick={handleClick}>{textContent}</button>
-    </div>
-  );
+  return <button className="submit-btn" onClick={handleClick}>{textContent}</button>;
 };
 
 export default Button;
