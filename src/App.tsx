@@ -1,4 +1,4 @@
-import Headings from './component/Headings';
+import Headings from './components/Headings';
 
 function App() {
   return (
