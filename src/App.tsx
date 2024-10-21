@@ -15,7 +15,10 @@ function App() {
         </Headings>
       </div>
       <div>
-        <SearchBar> submit </SearchBar>
+        <SearchBar>
+          <textarea placeholder="Enter your text" />
+          <button className='submitBtn'> Submit </button>
+        </SearchBar>
       </div>
     </>
   );

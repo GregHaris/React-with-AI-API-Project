@@ -1,14 +1,11 @@
+import { ReactNode } from 'react';
+
 interface Props {
-  children: string;
+  children: ReactNode;
 }
 
-const SearchBar = ({children}: Props) => {
-  return (
-    <div className="searchBar">
-      <textarea placeholder="Enter your text" />
-      <button>  { children } </button>
-    </div>
-  )
-}
+const SearchBar = ({ children }: Props) => {
+  return <div className="searchBar">{children}</div>;
+};
 
-export default SearchBar
+export default SearchBar;
