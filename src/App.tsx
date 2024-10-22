@@ -17,15 +17,12 @@ interface ChatMessage {
 
 const App: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>(''); // Initialize state with an empty string
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]); // Initialize chat messages state
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
+    const localValue = localStorage.getItem('chatMessages');
+    if (localValue === null) return [];
 
-  // Load chat history from localStorage on component mount
-  useEffect(() => {
-    const savedChatMessages = localStorage.getItem('chatMessages');
-    if (savedChatMessages) {
-      setChatMessages(JSON.parse(savedChatMessages));
-    }
-  }, []);
+    return JSON.parse(localValue);
+  }); // Initialize chat messages state
 
   // Save chat history to localStorage whenever it changes
   useEffect(() => {
