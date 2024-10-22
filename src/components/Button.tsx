@@ -5,8 +5,8 @@ interface Props {
   disabled?: boolean 
 }
 
-const Button = ({ textContent, handleClick }: Props) => {
-  return <button type="submit" onClick={handleClick}>{textContent}</button>;
+const Button = ({ textContent, handleClick, disabled }: Props) => {
+  return <button type="submit" onClick={handleClick} disabled={disabled}>{textContent}</button>;
 };
 
 export default Button;
