@@ -33,7 +33,11 @@ const App: React.FC = () => {
     setInputValue(event.target.value); // Update state with the new input value
   };
 
+   // Check if the input value is empty or contains only whitespace
+  const noChatPrompt = inputValue.trim() === '';
+
   const handleSubmit = async (value: string) => {
+    if (noChatPrompt) return 
     const chatPrompt = `You: ${value}`; // Set the chat prompt
     try {
       const chatCompletion = await groq.chat.completions.create({
@@ -60,6 +64,9 @@ const App: React.FC = () => {
         response: errorMessage,
       };
       setChatMessages([...chatMessages, newChatMessage]); // Append the error message to the array
+    }
+    finally {
+      setInputValue('')
     }
   };
 
@@ -91,6 +98,7 @@ const App: React.FC = () => {
           <Button
             textContent="Send"
             handleClick={() => handleSubmit(inputValue)}
+            disabled={noChatPrompt} // Pass the disabled state to the Button component
           />
         </SearchBar>
       </div>
