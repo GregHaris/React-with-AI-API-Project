@@ -1,18 +1,37 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Button from './components/Button';
 import Headings from './components/Headings';
 import SearchBar from './components/SearchBar';
+import Groq from 'groq-sdk';
 
-function App() {
-  const [inputValue, setInputValue] = useState(''); // Initialize state with an empty string
+const groq = new Groq({
+  apiKey: import.meta.env.VITE_REACT_APP_GROQ_API_KEY,
+  dangerouslyAllowBrowser: true,
+});
+
+const App: React.FC = () => {
+  const [inputValue, setInputValue] = useState<string>(''); // Initialize state with an empty string
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(event.target.value); // Update state with the new input value
   };
 
-  const handleSubmit = (value: string) => {
+  const handleSubmit = async (value: string) => {
     console.log('Input Value:', value);
-    // Add your API call or other logic here
+    try {
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [
+          {
+            role: 'user',
+            content: value,
+          },
+        ],
+        model: 'llama3-8b-8192',
+      });
+      console.log(chatCompletion.choices[0]?.message?.content || 'No response');
+    } catch (error) {
+      console.error('Error fetching chat completion:', error);
+    }
   };
 
   return (
@@ -43,6 +62,6 @@ function App() {
       </div>
     </>
   );
-}
+};
 
 export default App;
