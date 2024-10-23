@@ -95,6 +95,18 @@ const App: React.FC = () => {
         </Headings>
       </div>
       <div>
+        <Chat>
+          {/* Map over the chat messages to render each one */}
+          {chatMessages.map((message, index) => (
+            <div key={index} className="chatConversations">
+              <div className="chat-prompt">{message.prompt}</div>
+              <div className="chat-response">{message.response}</div>
+            </div>
+          ))}
+          <Button textContent="Clear Chat" handleClick={handleClearChat} />
+        </Chat>
+      </div>
+      <div>
         <SearchBar>
           <textarea
             className="search-input"
@@ -110,18 +122,6 @@ const App: React.FC = () => {
             disabled={noChatPrompt}
           />
         </SearchBar>
-      </div>
-      <div>
-        <Chat>
-          {/* Map over the chat messages to render each one */}
-          {chatMessages.map((message, index) => (
-            <div key={index} className='chatConversations'>
-              <div className="chat-prompt">{message.prompt}</div>
-              <div className="chat-response">{message.response}</div>
-            </div>
-          ))}
-          <Button textContent="Clear Chat" handleClick={handleClearChat} />
-        </Chat>
       </div>
     </>
   );
