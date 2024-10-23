@@ -113,7 +113,7 @@ const App: React.FC = () => {
     <>
       <AppName>
         <div>
-          <span>Grëg's </span>ChatBox
+          <span>Grëg's </span>ChatBot
         </div>
       </AppName>
       {isHeadersVisible && (
