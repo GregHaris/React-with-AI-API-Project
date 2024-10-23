@@ -16,13 +16,14 @@ interface ChatMessage {
 }
 
 const App: React.FC = () => {
-  const [inputValue, setInputValue] = useState<string>(''); // Initialize state with an empty string
+  // Initialize state with an empty string
+  const [inputValue, setInputValue] = useState<string>('');
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
     const localValue = localStorage.getItem('chatMessages');
     if (localValue === null) return [];
 
     return JSON.parse(localValue);
-  }); // Initialize chat messages state
+  }); 
 
   // Save chat history to localStorage whenever it changes
   useEffect(() => {
@@ -30,15 +31,17 @@ const App: React.FC = () => {
   }, [chatMessages]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue(event.target.value); // Update state with the new input value
+    // Update state with the new input value
+    setInputValue(event.target.value);
   };
 
-   // Check if the input value is empty or contains only whitespace
+  // Check if the input value is empty or contains only whitespace
   const noChatPrompt = inputValue.trim() === '';
 
+  // Send the prompt to the API
   const handleSubmit = async (value: string) => {
-    if (noChatPrompt) return 
-    const chatPrompt = `You: ${value}`; // Set the chat prompt
+    if (noChatPrompt) return;
+    const chatPrompt = `You: ${value}`;
     try {
       const chatCompletion = await groq.chat.completions.create({
         messages: [
@@ -55,7 +58,8 @@ const App: React.FC = () => {
         prompt: chatPrompt,
         response: responseContent,
       };
-      setChatMessages([...chatMessages, newChatMessage]); // Append the new chat message to the array
+      // Append the new chat message to the array
+      setChatMessages([...chatMessages, newChatMessage]);
     } catch (error) {
       console.error('Error fetching chat completion:', error);
       const errorMessage = 'Error fetching chat completion';
@@ -63,16 +67,19 @@ const App: React.FC = () => {
         prompt: chatPrompt,
         response: errorMessage,
       };
-      setChatMessages([...chatMessages, newChatMessage]); // Append the error message to the array
-    }
-    finally {
-      setInputValue('')
+      // Append the error message to the array
+      setChatMessages([...chatMessages, newChatMessage]);
+    } finally {
+      // clears the input field
+      setInputValue('');
     }
   };
 
   const handleClearChat = () => {
-    setChatMessages([]); // Clear the chat messages state
-    localStorage.removeItem('chatMessages'); // Remove chat history from localStorage
+    // Clear the chat messages state
+    setChatMessages([]);
+    // Remove chat history from localStorage
+    localStorage.removeItem('chatMessages');
   };
 
   return (
@@ -93,12 +100,14 @@ const App: React.FC = () => {
             className="search-input"
             placeholder="Enter your text"
             value={inputValue}
-            onChange={handleInputChange} // Use the handleInputChange function
+            // Use the handleInputChange function
+            onChange={handleInputChange}
           />
           <Button
             textContent="Send"
             handleClick={() => handleSubmit(inputValue)}
-            disabled={noChatPrompt} // Pass the disabled state to the Button component
+            // Pass the disabled state to the Button component
+            disabled={noChatPrompt}
           />
         </SearchBar>
       </div>
