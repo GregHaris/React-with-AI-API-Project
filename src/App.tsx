@@ -23,7 +23,10 @@ const App: React.FC = () => {
     if (localValue === null) return [];
 
     return JSON.parse(localValue);
-  }); 
+  });
+
+  // State to control the visibility of the Chat component
+  const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
 
   // Save chat history to localStorage whenever it changes
   useEffect(() => {
@@ -72,6 +75,8 @@ const App: React.FC = () => {
     } finally {
       // clears the input field
       setInputValue('');
+      // Show the Chat component after sending a message
+      setIsChatVisible(true);
     }
   };
 
@@ -80,6 +85,7 @@ const App: React.FC = () => {
     setChatMessages([]);
     // Remove chat history from localStorage
     localStorage.removeItem('chatMessages');
+    setIsChatVisible(false)
   };
 
   return (
@@ -94,18 +100,20 @@ const App: React.FC = () => {
           </div>
         </Headings>
       </div>
-      <div>
-        <Chat>
-          {/* Map over the chat messages to render each one */}
-          {chatMessages.map((message, index) => (
-            <div key={index} className="chatConversations">
-              <div className="chat-prompt">{message.prompt}</div>
-              <div className="chat-response">{message.response}</div>
-            </div>
-          ))}
-          <Button textContent="Clear Chat" handleClick={handleClearChat} />
-        </Chat>
-      </div>
+      {isChatVisible && (
+        <div>
+          <Chat>
+            {/* Map over the chat messages to render each one */}
+            {chatMessages.map((message, index) => (
+              <div key={index} className="chatConversations">
+                <div className="chat-prompt">{message.prompt}</div>
+                <div className="chat-response">{message.response}</div>
+              </div>
+            ))}
+            <Button textContent="Clear Chat" handleClick={handleClearChat} />
+          </Chat>
+        </div>
+      )}
       <div>
         <SearchBar>
           <textarea
