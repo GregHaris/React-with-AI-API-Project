@@ -16,34 +16,43 @@ interface ChatMessage {
   response: string;
 }
 
+interface AppState {
+  inputValue: string;
+  chatMessages: ChatMessage[];
+  isChatVisible: boolean;
+  isHeadersVisible: boolean;
+}
+
 const App: React.FC = () => {
   // Initialize state with an empty string
-  const [inputValue, setInputValue] = useState<string>('');
-  const [chatMessages, setChatMessages] = useState<ChatMessage[]>(() => {
-    const localValue = localStorage.getItem('chatMessages');
-    if (localValue === null) return [];
-
+  const [state, setState] = useState<AppState>(() => {
+    const localValue = localStorage.getItem('appState');
+    if (localValue === null) {
+      return {
+        inputValue: '',
+        chatMessages: [],
+        isChatVisible: false,
+        isHeadersVisible: true,
+      };
+    }
     return JSON.parse(localValue);
   });
 
-  // State to control the visibility of the Chat component
-  const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
-
-  // state to control the visibility of the Header component
-  const [isHeadersVisible, setIsHeaderVisible] = useState<boolean>(true);
-
-  // Save chat history to localStorage whenever it changes
+  // Save state to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
-  }, [chatMessages]);
+    localStorage.setItem('appState', JSON.stringify(state));
+  }, [state]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     // Update state with the new input value
-    setInputValue(event.target.value);
+    setState((prevState) => ({
+      ...prevState,
+      inputValue: event.target.value,
+    }));
   };
 
   // Check if the input value is empty or contains only whitespace
-  const noChatPrompt = inputValue.trim() === '';
+  const noChatPrompt = state.inputValue.trim() === '';
 
   // Send the prompt to the API
   const handleSubmit = async (value: string) => {
@@ -66,7 +75,12 @@ const App: React.FC = () => {
         response: responseContent,
       };
       // Append the new chat message to the array
-      setChatMessages([...chatMessages, newChatMessage]);
+      setState((prevState) => ({
+        ...prevState,
+        chatMessages: [...prevState.chatMessages, newChatMessage],
+        isChatVisible: true,
+        isHeadersVisible: false,
+      }));
     } catch (error) {
       console.error('Error fetching chat completion:', error);
       const errorMessage = 'Error fetching chat completion';
@@ -75,37 +89,38 @@ const App: React.FC = () => {
         response: errorMessage,
       };
       // Append the error message to the array
-      setChatMessages([...chatMessages, newChatMessage]);
+      setState((prevState) => ({
+        ...prevState,
+        chatMessages: [...prevState.chatMessages, newChatMessage],
+        isChatVisible: true,
+        isHeadersVisible: false,
+      }));
     } finally {
       // clears the input field
-      setInputValue('');
-
-      // Show the Chat component after sending a message
-      setIsChatVisible(true);
-
-      // Hide the Header component after starting a chat
-      setIsHeaderVisible(false);
+      setState((prevState) => ({
+        ...prevState,
+        inputValue: '',
+      }));
     }
   };
 
   const handleClearChat = () => {
     // Clear the chat messages state
-    setChatMessages([]);
+    setState((prevState) => ({
+      ...prevState,
+      chatMessages: [],
+      isChatVisible: false,
+      isHeadersVisible: true,
+    }));
 
     // Remove chat history from localStorage
-    localStorage.removeItem('chatMessages');
-
-    // Hide Chat component after clearing the chat
-    setIsChatVisible(false);
-
-    // Show the Headers component after clearing the chat
-    setIsHeaderVisible(true);
+    localStorage.removeItem('appState');
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault(); // Prevent the default action (newline)
-      handleSubmit(inputValue);
+      handleSubmit(state.inputValue);
     }
   };
 
@@ -116,7 +131,7 @@ const App: React.FC = () => {
           <span>Grëg's </span>ChatBot
         </div>
       </AppName>
-      {isHeadersVisible && (
+      {state.isHeadersVisible && (
         <div>
           <Headings>
             <div>
@@ -128,11 +143,11 @@ const App: React.FC = () => {
           </Headings>
         </div>
       )}
-      {isChatVisible && (
+      {state.isChatVisible && (
         <div className="chat-container">
           <Chat>
             {/* Map over the chat messages to render each one */}
-            {chatMessages.map((message, index) => (
+            {state.chatMessages.map((message, index) => (
               <div key={index} className="chatConversations">
                 <div className="chat-prompt">{message.prompt}</div>
                 <div className="chat-response">{message.response}</div>
@@ -147,7 +162,7 @@ const App: React.FC = () => {
           <textarea
             className="search-input"
             placeholder="Enter your text"
-            value={inputValue}
+            value={state.inputValue}
             // Use the handleInputChange function
             onChange={handleInputChange}
             // Use the handleKeyDown function
@@ -155,7 +170,7 @@ const App: React.FC = () => {
           />
           <Button
             textContent="Send"
-            handleClick={() => handleSubmit(inputValue)}
+            handleClick={() => handleSubmit(state.inputValue)}
             // Pass the disabled state to the Button component
             disabled={noChatPrompt}
           />
