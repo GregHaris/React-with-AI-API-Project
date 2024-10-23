@@ -115,7 +115,7 @@ const App: React.FC = () => {
         <Chat>
           {/* Map over the chat messages to render each one */}
           {chatMessages.map((message, index) => (
-            <div key={index}>
+            <div key={index} className='chatConversations'>
               <div className="chat-prompt">{message.prompt}</div>
               <div className="chat-response">{message.response}</div>
             </div>
