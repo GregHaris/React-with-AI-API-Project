@@ -7,8 +7,11 @@
 }
 
 #root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin: 2rem;
-  align-content: center;
+  align-items: center;
   line-height: 2;
 }
 
@@ -18,7 +21,7 @@
 }
 
 .app-name div {
-  background: rgba(0, 0 , 0 , 0.1);
+  background: rgba(0, 0, 0, 0.1);
   padding: 0 1rem;
   border-radius: 1rem;
 }
@@ -46,7 +49,7 @@ button {
 }
 
 button:hover {
-  opacity: .9;
+  opacity: 0.9;
 }
 
 .search-input {
@@ -55,15 +58,20 @@ button:hover {
   background: transparent;
   outline: none;
   height: 20rem;
-  padding: .5rem .5rem .5rem 2rem;
+  padding: 0.5rem 0.5rem 0.5rem 2rem;
   font-size: inherit;
+}
+
+.searchBar-container {
+  align-self: flex-end;
+  width: 90%;
 }
 
 .searchBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 50%;
+
   gap: 2rem;
   padding: 1rem;
 }
@@ -80,8 +88,9 @@ button:hover {
   background-color: rgb(162, 192, 238);
 }
 
-.chat {
+.chat-container {
   width: 50%;
+  margin-top: 3em;
 }
 
 .chatConversations {
@@ -93,13 +102,13 @@ button:hover {
   align-self: flex-end;
   margin: 1rem 0;
   font-weight: 600;
-  background-color: rgba(0, 0 , 0 , 0.1);
-  padding: .5rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
 }
 
 .chat button {
   background-color: rgb(205, 56, 56);
   color: white;
-  padding: .5em 1.5em;
+  padding: 0.5em 1.5em;
   margin: 2rem 0;
 }
