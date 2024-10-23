@@ -102,6 +102,13 @@ const App: React.FC = () => {
     setIsHeaderVisible(true);
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault(); // Prevent the default action (newline)
+      handleSubmit(inputValue);
+    }
+  };
+
   return (
     <>
       <AppName>
@@ -143,6 +150,8 @@ const App: React.FC = () => {
             value={inputValue}
             // Use the handleInputChange function
             onChange={handleInputChange}
+            // Use the handleKeyDown function
+            onKeyDown={handleKeyDown}
           />
           <Button
             textContent="Send"
