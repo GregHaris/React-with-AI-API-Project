@@ -84,7 +84,7 @@ const App: React.FC = () => {
       setIsChatVisible(true);
 
       // Hide the Header component after starting a chat
-      setIsHeaderVisible(false)
+      setIsHeaderVisible(false);
     }
   };
 
@@ -96,29 +96,33 @@ const App: React.FC = () => {
     localStorage.removeItem('chatMessages');
 
     // Hide Chat component after clearing the chat
-    setIsChatVisible(false)
+    setIsChatVisible(false);
 
     // Show the Headers component after clearing the chat
-    setIsHeaderVisible(true)
+    setIsHeaderVisible(true);
   };
 
   return (
-    <> 
+    <>
       <AppName>
-        <div><span>Grëg's </span>ChatBox</div>
-      </AppName>
-     { isHeadersVisible && (<div>
-        <Headings>
-          <div>
-            <h1>Hi, Welcome.</h1>
-          </div>
-          <div>
-            <h3>How can I help you today?</h3>
-          </div>
-        </Headings>
-      </div>)}
-      {isChatVisible && (
         <div>
+          <span>Grëg's </span>ChatBox
+        </div>
+      </AppName>
+      {isHeadersVisible && (
+        <div>
+          <Headings>
+            <div>
+              <h1>Hi, Welcome.</h1>
+            </div>
+            <div>
+              <h3>How can I help you today?</h3>
+            </div>
+          </Headings>
+        </div>
+      )}
+      {isChatVisible && (
+        <div className="chat-container">
           <Chat>
             {/* Map over the chat messages to render each one */}
             {chatMessages.map((message, index) => (
@@ -131,7 +135,7 @@ const App: React.FC = () => {
           </Chat>
         </div>
       )}
-      <div>
+      <div className="searchBar-container">
         <SearchBar>
           <textarea
             className="search-input"

@@ -5,11 +5,7 @@ interface Props {
 }
 
 const SearchBar = ({ children }: Props) => {
-  return (
-    <div className="searchBar">
-      {children}
-    </div>
-  );
+  return <div className="searchBar">{children}</div>;
 };
 
 export default SearchBar;
