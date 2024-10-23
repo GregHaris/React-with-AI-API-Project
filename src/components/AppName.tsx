@@ -5,7 +5,7 @@ interface Props {
 }
 
 const AppName = ({ children }: Props) => {
-  return <div className="title">{children}</div>;
+  return <div className="app-name">{children}</div>;
 };
 
 export default AppName;
