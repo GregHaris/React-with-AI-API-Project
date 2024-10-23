@@ -13,13 +13,14 @@ export default defineConfig({
     {
       name: 'open-browser',
       configureServer(server) {
-        server.httpServer.on('listening', () => {
-          const address = server.httpServer.address();
-          if (typeof address === 'string' || address === null) {
-            return;
+        server.httpServer?.on('listening', () => {
+          const address = server.httpServer?.address();
+          if (address && typeof address === 'object' && 'port' in address) {
+            const url = `http://localhost:${address.port}`;
+            open(url, { app: { name: 'firefox' } }).catch((err) => {
+              console.error('Failed to open browser:', err);
+            });
           }
-          const url = `http://localhost:${address.port}`;
-          open(url, { app: { name: 'firefox' } });
         });
       },
     },
