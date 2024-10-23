@@ -5,7 +5,7 @@ interface Props {
 }
 
 const Chat = ({ children }: Props) => {
-  return <div>{children}</div>;
+  return <div className='chat'>{children}</div>;
 };
 
 export default Chat;
