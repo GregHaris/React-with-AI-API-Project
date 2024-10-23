@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import AppName from './components/AppName';
 import Button from './components/Button';
 import Chat from './components/Chat';
 import Groq from 'groq-sdk';
 import Headings from './components/Headings';
 import SearchBar from './components/SearchBar';
+import { useState, useEffect } from 'react';
 
 const groq = new Groq({
   apiKey: import.meta.env.VITE_REACT_APP_GROQ_API_KEY,
@@ -103,6 +104,9 @@ const App: React.FC = () => {
 
   return (
     <> 
+      <AppName>
+        <div><span>Grëg's</span> ChatBox</div>
+      </AppName>
      { isHeadersVisible && (<div>
         <Headings>
           <div>
