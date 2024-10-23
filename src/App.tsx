@@ -28,6 +28,9 @@ const App: React.FC = () => {
   // State to control the visibility of the Chat component
   const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
 
+  // state to control the visibility of the Header component
+  const [isHeadersVisible, setIsHeaderVisible] = useState<boolean>(true);
+
   // Save chat history to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('chatMessages', JSON.stringify(chatMessages));
@@ -75,22 +78,32 @@ const App: React.FC = () => {
     } finally {
       // clears the input field
       setInputValue('');
+
       // Show the Chat component after sending a message
       setIsChatVisible(true);
+
+      // Hide the Header component after starting a chat
+      setIsHeaderVisible(false)
     }
   };
 
   const handleClearChat = () => {
     // Clear the chat messages state
     setChatMessages([]);
+
     // Remove chat history from localStorage
     localStorage.removeItem('chatMessages');
+
+    // Hide Chat component after clearing the chat
     setIsChatVisible(false)
+
+    // Show the Headers component after clearing the chat
+    setIsHeaderVisible(true)
   };
 
   return (
-    <>
-      <div>
+    <> 
+     { isHeadersVisible && (<div>
         <Headings>
           <div>
             <h1>Hi, Welcome.</h1>
@@ -99,7 +112,7 @@ const App: React.FC = () => {
             <h3>How can I help you today?</h3>
           </div>
         </Headings>
-      </div>
+      </div>)}
       {isChatVisible && (
         <div>
           <Chat>
