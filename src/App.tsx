@@ -5,6 +5,7 @@ import Groq from 'groq-sdk';
 import Headings from './components/Headings';
 import SearchBar from './components/SearchBar';
 import { useState, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 const groq = new Groq({
   apiKey: import.meta.env.VITE_REACT_APP_GROQ_API_KEY,
@@ -150,7 +151,9 @@ const App: React.FC = () => {
             {state.chatMessages.map((message, index) => (
               <div key={index} className="chatConversations">
                 <div className="chat-prompt">{message.prompt}</div>
-                <div className="chat-response">{message.response}</div>
+                <div className="chat-response">
+                  <ReactMarkdown>{message.response}</ReactMarkdown>
+                </div>
               </div>
             ))}
             <Button textContent="Clear Chat" handleClick={handleClearChat} />
