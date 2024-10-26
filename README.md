@@ -1,4 +1,4 @@
-# React with GPT4 API Project
+# React with Groq AI API Project
 
 The aim of this Project is to learn TypeScript, React and APIs by using these technologies to:
 
@@ -8,5 +8,5 @@ The aim of this Project is to learn TypeScript, React and APIs by using these te
   - a submit button to search for the text
   - a section to display the result of the search
 
-- The app will be connected to GPT-4 API to search
+- The app will be connected to Groq AI API to search
 - Then display the search result
